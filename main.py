@@ -74,6 +74,8 @@ def process_dir(mai2_resource_dir):
 
             # Extract song sound data and get duration
             acb_path = mai2_resource_dir / "SoundData" / f"music{movie_id}.acb"
+            if not acb_path.exists():
+                acb_path = MAI2_A000_DIR / "SoundData" / f"music{movie_id}.acb"
             acb_output_dir = TMP_DIR / f"{movie_id}_acb"
             acb_output_dir.mkdir(exist_ok=True)
             acb.ACB(str(acb_path)).extract(
