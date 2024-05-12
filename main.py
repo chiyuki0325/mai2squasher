@@ -41,10 +41,18 @@ new_size = 0
 
 def process_dir(mai2_resource_dir):
     global counter, original_size, new_size
-    for music_xml in (mai2_resource_dir / "music").glob("*/*.xml"):
+    music_dir = mai2_resource_dir / "music"
+    if not music_dir.exists():
+        return
+    for music_dir in music_dir.iterdir():
+        if not music_dir.is_dir():
+            continue
+        music_xml = music_dir / "Music.xml"
+        if not music_xml.exists():
+            continue
         document = minidom.parse(music_xml.open('r')).documentElement
 
-        movie_id = document.getElementsByTagName('artistName')[0].getElementsByTagName('id')[0].firstChild.nodeValue
+        movie_id = document.getElementsByTagName('movieName')[0].getElementsByTagName('id')[0].firstChild.nodeValue
         movie_id = movie_id.zfill(6)
         movie_path = mai2_resource_dir / "MovieData" / f"{movie_id}.dat"
         if not movie_path.exists():
@@ -54,8 +62,6 @@ def process_dir(mai2_resource_dir):
             jacket_path = MAI2_A000_DIR / "AssetBundleImages" / "jacket" / f"ui_jacket_{movie_id}.ab"
 
         if movie_path.exists() and jacket_path.exists() and movie_path.stat().st_size > 1048576:
-            original_size += movie_path.stat().st_size
-
             # Show progress
             song_name = document.getElementsByTagName('name')[0].getElementsByTagName('str')[0].firstChild.nodeValue
             song_artist = document.getElementsByTagName('artistName')[0].getElementsByTagName('str')[
