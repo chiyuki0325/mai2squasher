@@ -1,0 +1,3 @@
+UnityPy
+wannacri
+python-json-logger  # 被 wannacri 依赖
