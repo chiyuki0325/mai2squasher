@@ -15,8 +15,8 @@ Note that the game's legacy versions (SDDZ, SDEY, etc.) are not supported.
 python -m venv venv
 source venv/bin/activate
 pip install git+https://github.com/Youjose/PyCriCodecs.git
-```
 pip install -r requirements.txt
+```
 
 Also, you must have `ffmpeg` and `ffprobe` installed in your system.
 
